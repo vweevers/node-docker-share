@@ -1,0 +1,29 @@
+{
+  "name": "docker-share",
+  "version": "0.0.1",
+  "description": "Share local folders with a Docker Machine VM",
+  "license": "MIT",
+  "bin": "bin.js",
+  "author": "Vincent Weevers",
+  "scripts": {},
+  "dependencies": {
+    "debug": "~2.2.0",
+    "docker-machine": "~1.0.0",
+    "run-series": "~1.1.4",
+    "unixify": "~0.2.1",
+    "xtend": "~4.0.1",
+    "yargs": "~4.8.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "docker-machine",
+    "docker",
+    "machine",
+    "mount",
+    "share"
+  ],
+  "engines": {
+    "node": ">=0.4.0",
+    "npm": ">=2.0.0"
+  }
+}
