@@ -6,7 +6,7 @@
 
 ## motivation
 
-On Windows with Docker Toolbox, one [can't mount data volumes outside of `C:\Users`](https://github.com/docker/compose/issues/2548). This is especially annoying with Docker Compose and relative data volumes like `.:/code`. To remedy this (without migrating to [Windows 10 with Docker for Windows](https://github.com/docker/compose/issues/2548#issuecomment-232415158)), we can add a project's directory as a VirtualBox shared folder and mount it inside the Docker Machine VM - at the exact same path as on the Windows box so that relative volumes resolve correctly. This tool does this for you (and more, like checking if the share already exists). Its main functionality is roughly equivalent to:
+On Windows with Docker Toolbox, one [can't mount data volumes outside of `C:\Users`](https://github.com/docker/compose/issues/2548). This makes the use of Docker Compose and relative data volumes (`.:/code`) rather problematic. As a remedy (when migrating to [Windows 10 with Docker for Windows Beta](https://github.com/docker/compose/issues/2548#issuecomment-232415158) is not an option) we can add a project's directory as a VirtualBox shared folder. Then mount it inside the Docker Machine VM - at the exact same path as on the Windows box so that relative volumes resolve correctly. This tool does this for you (and more, like checking if the share already exists). Its main functionality is roughly equivalent to:
 
 ```batch
 cd C:\projects\my-project
