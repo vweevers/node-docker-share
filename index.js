@@ -2,7 +2,7 @@
 
 const path = require('path')
     , fs = require('fs')
-    , env = require('xtend')(process.env)
+    , env = Object.assign({}, process.env)
     , cp = require('child_process')
     , Machine = require('docker-machine')
     , unixify = require('unixify')
@@ -10,7 +10,8 @@ const path = require('path')
     , debug = require('debug')('docker-share')
 
 if (env.VBOX_MSI_INSTALL_PATH) {
-  env.PATH+= path.delimiter + env.VBOX_MSI_INSTALL_PATH
+  const key = Object.keys(env).find(key => key.toUpperCase() === 'PATH')
+  env[key] = env[key] + path.delimiter + env.VBOX_MSI_INSTALL_PATH
 }
 
 class VirtualBox {
@@ -131,6 +132,8 @@ class Shares {
     series([
       (next) => {
         this.vm.getState((err, state) => {
+          if (err) return next(err)
+
           if (opts.transient && !/^running/.test(state)) {
             return next(new Error(
               'VM must be running to create a transient shared folder'
