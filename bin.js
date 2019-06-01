@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-
-'use strict';
+'use strict'
 
 const yargs = require('yargs')
-    , Shares = require('./')
-    , pkg = require('./package.json')
+const Shares = require('.')
+const pkg = require('./package.json')
 
 const name = pkg.name
 const description = pkg.description
@@ -23,13 +22,16 @@ yargs.options({
   }
 })
 
-yargs.global(['machine', 'verbose'])
-     .group (['machine', 'verbose'], 'Global options:')
+yargs
+  .global(['machine', 'verbose'])
+  .group(['machine', 'verbose'], 'Global options:')
 
-yargs.command('mount', 'Create shared folder and mount it')
-     .command('unmount', 'Unmount and remove shared folder if it exists')
+yargs
+  .command('mount', 'Create shared folder and mount it')
+  .command('unmount', 'Unmount and remove shared folder if it exists')
 
-yargs.epilogue(`Run '${name} <command> --help' for more information on a command.`)
+yargs
+  .epilogue(`Run '${name} <command> --help' for more information on a command.`)
 
 const verbose = yargs.argv.verbose
 const command = yargs.argv._[0]
@@ -62,7 +64,6 @@ if (command === 'mount') {
     .example(`${name} mount`, 'Mount the current working directory')
     .example(`${name} mount -tr`, 'Read-only and temporary')
     .example(`${name} mount . /beep`, 'Mount working directory at /beep')
-    .argv
 
   const opts = yargs.argv
   const args = yargs.argv._.slice(1)

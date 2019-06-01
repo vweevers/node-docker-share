@@ -1,13 +1,12 @@
-'use strict';
+'use strict'
 
 const path = require('path')
-    , fs = require('fs')
-    , env = Object.assign({}, process.env)
-    , cp = require('child_process')
-    , Machine = require('docker-machine')
-    , unixify = require('unixify')
-    , series = require('run-series')
-    , debug = require('debug')('docker-share')
+const env = Object.assign({}, process.env)
+const cp = require('child_process')
+const Machine = require('docker-machine')
+const unixify = require('unixify')
+const series = require('run-series')
+const debug = require('debug')('docker-share')
 
 if (env.VBOX_MSI_INSTALL_PATH) {
   const key = Object.keys(env).find(key => key.toUpperCase() === 'PATH')
@@ -15,11 +14,11 @@ if (env.VBOX_MSI_INSTALL_PATH) {
 }
 
 class VirtualBox {
-  constructor(name) {
+  constructor (name) {
     this.name = name
   }
 
-  command(args, done) {
+  command (args, done) {
     debug('vboxmanage', args)
 
     cp.execFile('vboxmanage', args, {
@@ -28,9 +27,13 @@ class VirtualBox {
     }, done)
   }
 
-  addShare(name, hostPath, opts, done) {
-    if (typeof opts === 'function') done = opts, opts = {}
-    else if (!opts) opts = {}
+  addShare (name, hostPath, opts, done) {
+    if (typeof opts === 'function') {
+      done = opts
+      opts = {}
+    } else if (!opts) {
+      opts = {}
+    }
 
     const args = ['sharedfolder', 'add', this.name]
 
@@ -43,23 +46,23 @@ class VirtualBox {
     this.command(args, done)
   }
 
-  removeShare() {
+  removeShare () {
 
   }
 
-  info(done) {
+  info (done) {
     this.command(['showvminfo', this.name], done)
   }
 
-  getShares(done) {
+  getShares (done) {
     this.info((err, info) => {
       if (err) return done(err)
 
       const re = /Name: '(.*)', Host path: '(.*)'(.*)/g
       const shares = {}
 
-      let match;
-      while(match = re.exec(info)) {
+      let match
+      while ((match = re.exec(info)) !== null) {
         const share = { name: match[1], hostPath: match[2] }
 
         ;(match[3] || '').split(',').forEach(prop => {
@@ -80,21 +83,21 @@ class VirtualBox {
     })
   }
 
-  getShare(name, done) {
+  getShare (name, done) {
     this.getShares((err, shares) => {
       if (err) done(err)
       else done(null, shares[name] || null)
     })
   }
 
-  hasShare(name, done) {
+  hasShare (name, done) {
     this.getShare(name, (err, share) => {
       if (err) done(err)
       else done(null, !!share)
     })
   }
 
-  getState(done) {
+  getState (done) {
     this.info((err, info) => {
       if (err) return done(err)
 
@@ -107,20 +110,24 @@ class VirtualBox {
 }
 
 class Shares {
-  constructor(opts) {
+  constructor (opts) {
     this.machine = new Machine({ name: opts.machine })
     this.vm = new VirtualBox(this.machine.name)
   }
 
-  static unixify(path) {
+  static unixify (path) {
     const unix = unixify(path)
     const m = path.match(/^([A-Z]):/i)
     return m ? '/' + m[1].toLowerCase() + unix : unix
   }
 
-  mount(opts, done) {
-    if (typeof opts === 'function') done = opts, opts = {}
-    else if (!opts) opts = {}
+  mount (opts, done) {
+    if (typeof opts === 'function') {
+      done = opts
+      opts = {}
+    } else if (!opts) {
+      opts = {}
+    }
 
     const hostPath = path.resolve(opts.hostPath || '.')
     const name = opts.name || path.basename(hostPath)
@@ -205,7 +212,7 @@ class Shares {
     ], done)
   }
 
-  getFilesystems(done) {
+  getFilesystems (done) {
     debug('mount')
 
     this.machine.ssh('mount', (err, result) => {
@@ -214,8 +221,8 @@ class Shares {
       const re = /^([^ ]+) on ([^ ]+) type ([^ ]+)/igm
       const filesystems = {}
 
-      let match;
-      while(match = re.exec(result)) {
+      let match
+      while ((match = re.exec(result)) !== null) {
         const mp = { name: match[1], path: match[2], type: match[3] }
         filesystems[mp.name] = mp
       }
@@ -225,14 +232,14 @@ class Shares {
     })
   }
 
-  getFilesystem(name, done) {
+  getFilesystem (name, done) {
     this.getFilesystems((err, filesystems) => {
       if (err) done(err)
       else done(null, filesystems[name] || null)
     })
   }
 
-  mountFilesystem(name, guestPath, done) {
+  mountFilesystem (name, guestPath, done) {
     const mkdir = `sudo mkdir -p "${guestPath}"`
     debug(mkdir)
 
