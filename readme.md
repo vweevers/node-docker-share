@@ -2,9 +2,12 @@
 
 **Share local folders with a Docker Machine VM. Currently only capable of adding and mounting transient shares on a running VM.**
 
-[![node](https://img.shields.io/node/v/docker-share.svg?style=flat-square)](https://www.npmjs.org/package/docker-share) [![npm status](http://img.shields.io/npm/v/docker-share.svg?style=flat-square)](https://www.npmjs.org/package/docker-share)  [![Dependency status](https://img.shields.io/david/vweevers/node-docker-share.svg?style=flat-square)](https://david-dm.org/vweevers/node-docker-share)
+[![node](https://img.shields.io/node/v/docker-share.svg)](https://www.npmjs.org/package/docker-share)
+[![npm status](http://img.shields.io/npm/v/docker-share.svg)](https://www.npmjs.org/package/docker-share)
+[![Dependency status](https://img.shields.io/david/vweevers/node-docker-share.svg)](https://david-dm.org/vweevers/node-docker-share)
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-## motivation
+## Motivation
 
 On Windows with Docker Toolbox, one [can't mount data volumes outside of `C:\Users`](https://github.com/docker/compose/issues/2548). This makes the use of Docker Compose and relative data volumes (`.:/code`) rather problematic. As a remedy (when migrating to [Windows 10 with Docker for Windows Beta](https://github.com/docker/compose/issues/2548#issuecomment-232415158) is not an option) we can add a project's directory as a VirtualBox shared folder. Then mount it inside the Docker Machine VM - at the exact same path as on the Windows box so that relative volumes resolve correctly. This tool does this for you (and more, like checking if the share already exists). Its main functionality is roughly equivalent to:
 
@@ -26,7 +29,7 @@ docker-machine ssh default sudo ^
 
 This tool should work on other platforms too. If you've found a use for it, let me know! Or just do a little dance.
 
-## example
+## Example
 
 These commands should be run after `docker-machine start`, but before `docker run` or `docker-compose up`. Mount the current working directory:
 
@@ -40,13 +43,13 @@ Mount the current working directory, transient and read-only, at `/home/docker/b
 docker-share mount -m my-machine -tr . /home/docker/beep
 ```
 
-## roadmap
+## Roadmap
 
 - [x] Mount transient share
 - [ ] Mount permanent share (check state, stop VM if `--force`, edit boot script, restart)
 - [ ] Unmount
 
-## usage
+## Usage
 
 ### `docker-share <command> [options]`
 
@@ -74,7 +77,7 @@ Options:
   --help           Show help                                   [boolean]
 ```
 
-## install
+## Install
 
 With [npm](https://npmjs.org) do:
 
@@ -82,6 +85,6 @@ With [npm](https://npmjs.org) do:
 npm install docker-share --global
 ```
 
-## license
+## License
 
-[MIT](http://opensource.org/licenses/MIT) © Vincent Weevers
+[MIT](LICENSE) © 2016-present Vincent Weevers
