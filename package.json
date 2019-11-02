@@ -25,7 +25,7 @@
     "share"
   ],
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=8"
   },
   "repository": "vweevers/node-docker-share",
   "bugs": "https://github.com/vweevers/node-docker-share/issues",
