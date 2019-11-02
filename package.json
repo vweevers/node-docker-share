@@ -1,6 +1,6 @@
 {
   "name": "docker-share",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "Share local folders with a Docker Machine VM",
   "license": "MIT",
   "bin": "bin.js",
