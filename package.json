@@ -9,7 +9,6 @@
     "test": "standard"
   },
   "dependencies": {
-    "debug": "~2.2.0",
     "docker-machine": "~1.0.0",
     "run-series": "~1.1.4",
     "unixify": "~0.2.1",

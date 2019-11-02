@@ -6,7 +6,6 @@ const cp = require('child_process')
 const Machine = require('docker-machine')
 const unixify = require('unixify')
 const series = require('run-series')
-const debug = require('debug')('docker-share')
 
 if (env.VBOX_MSI_INSTALL_PATH) {
   const key = Object.keys(env).find(key => key.toUpperCase() === 'PATH')
@@ -19,8 +18,6 @@ class VirtualBox {
   }
 
   command (args, done) {
-    debug('vboxmanage', args)
-
     cp.execFile('vboxmanage', args, {
       env: env,
       encoding: 'utf8'
@@ -78,7 +75,6 @@ class VirtualBox {
         shares[share.name] = share
       }
 
-      debug(shares)
       done(null, shares)
     })
   }
@@ -133,8 +129,6 @@ class Shares {
     const name = opts.name || path.basename(hostPath)
     const guestPath = Shares.unixify(opts.guestPath || hostPath)
     const state = {}
-
-    debug('Mounting %s..', name)
 
     series([
       (next) => {
@@ -213,8 +207,6 @@ class Shares {
   }
 
   getFilesystems (done) {
-    debug('mount')
-
     this.machine.ssh('mount', (err, result) => {
       if (err) return done(err)
 
@@ -227,7 +219,6 @@ class Shares {
         filesystems[mp.name] = mp
       }
 
-      debug(filesystems)
       done(null, filesystems)
     })
   }
@@ -241,7 +232,6 @@ class Shares {
 
   mountFilesystem (name, guestPath, done) {
     const mkdir = `sudo mkdir -p "${guestPath}"`
-    debug(mkdir)
 
     this.machine.ssh(mkdir, (err) => {
       if (err) return done(err)
@@ -249,7 +239,6 @@ class Shares {
       const opt = 'defaults,uid=`id -u docker`,gid=`id -g docker`'
       const mount = `sudo mount -t vboxsf -o ${opt} ${name} ${guestPath}`
 
-      debug(mount)
       this.machine.ssh(mount, done)
     })
   }
