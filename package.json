@@ -12,7 +12,7 @@
     "docker-machine": "~3.0.1",
     "run-series": "~1.1.4",
     "unixify": "~1.0.0",
-    "yargs": "~4.8.0"
+    "yargs": "~14.2.0"
   },
   "devDependencies": {
     "standard": "^14.3.1"
