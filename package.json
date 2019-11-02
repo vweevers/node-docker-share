@@ -9,7 +9,7 @@
     "test": "standard"
   },
   "dependencies": {
-    "docker-machine": "~1.0.0",
+    "docker-machine": "~3.0.1",
     "run-series": "~1.1.4",
     "unixify": "~1.0.0",
     "yargs": "~4.8.0"
