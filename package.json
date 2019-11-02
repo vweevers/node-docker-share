@@ -11,7 +11,7 @@
   "dependencies": {
     "docker-machine": "~1.0.0",
     "run-series": "~1.1.4",
-    "unixify": "~0.2.1",
+    "unixify": "~1.0.0",
     "yargs": "~4.8.0"
   },
   "devDependencies": {
